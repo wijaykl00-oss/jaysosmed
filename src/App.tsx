@@ -26,6 +26,7 @@ import {
   Video
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import qrisImage from '../foto/qrisss.png';
 
 // --- Data ---
 
@@ -37,87 +38,114 @@ const PRICE_LIST = [
   {
     category: "Followers TikTok",
     icon: Users,
-    prices: [
-      { qty: "100", price: "6.000" },
-      { qty: "500", price: "26.000" },
-      { qty: "1000", price: "51.000" },
-    ],
-    fullList: [
-      "100 • Rp 6.000", "200 • Rp 11.000", "300 • Rp 16.000", "400 • Rp 21.000", "500 • Rp 26.000", "600 • Rp 31.000", "700 • Rp 36.000", "800 • Rp 41.000", "900 • Rp 46.000", "1000 • Rp 51.000"
+    options: [
+      { qty: "100", price: "6.000", value: 6000 },
+      { qty: "200", price: "11.000", value: 11000 },
+      { qty: "300", price: "16.000", value: 16000 },
+      { qty: "400", price: "21.000", value: 21000 },
+      { qty: "500", price: "26.000", value: 26000 },
+      { qty: "600", price: "31.000", value: 31000 },
+      { qty: "700", price: "36.000", value: 36000 },
+      { qty: "800", price: "41.000", value: 41000 },
+      { qty: "900", price: "46.000", value: 46000 },
+      { qty: "1000", price: "51.000", value: 51000 },
     ]
   },
   {
     category: "Like TikTok",
     icon: Heart,
-    prices: [
-      { qty: "100", price: "2.000" },
-      { qty: "500", price: "10.000" },
-      { qty: "1000", price: "20.000" },
-    ],
-    fullList: [
-      "100 • Rp 2.000", "500 • Rp 10.000", "1000 • Rp 20.000"
+    options: [
+      { qty: "100", price: "2.000", value: 2000 },
+      { qty: "200", price: "4.000", value: 4000 },
+      { qty: "300", price: "6.000", value: 6000 },
+      { qty: "400", price: "8.000", value: 8000 },
+      { qty: "500", price: "10.000", value: 10000 },
+      { qty: "600", price: "12.000", value: 12000 },
+      { qty: "700", price: "14.000", value: 14000 },
+      { qty: "800", price: "16.000", value: 16000 },
+      { qty: "900", price: "18.000", value: 18000 },
+      { qty: "1000", price: "20.000", value: 20000 },
     ]
   },
   {
-    category: "Views TikTok & IG",
+    category: "View TikTok & Instagram",
     icon: Eye,
-    prices: [
-      { qty: "2.500", price: "2.500" },
-      { qty: "10.000", price: "8.500" },
-      { qty: "30.000", price: "20.500" },
-    ],
-    fullList: [
-      "2.500 • Rp 2.500", "10.000 • Rp 8.500", "30.000 • Rp 20.500"
+    options: [
+      { qty: "2.500", price: "2.500", value: 2500 },
+      { qty: "5.000", price: "4.500", value: 4500 },
+      { qty: "7.500", price: "6.500", value: 6500 },
+      { qty: "10.000", price: "8.500", value: 8500 },
+      { qty: "12.500", price: "10.500", value: 10500 },
+      { qty: "15.000", price: "12.500", value: 12500 },
+      { qty: "17.500", price: "14.500", value: 14500 },
+      { qty: "20.000", price: "16.500", value: 16500 },
+      { qty: "25.000", price: "18.500", value: 18500 },
+      { qty: "30.000", price: "20.500", value: 20500 },
     ]
   },
   {
     category: "Share TikTok",
     icon: Share2,
-    prices: [
-      { qty: "100", price: "3.000" },
-      { qty: "500", price: "15.000" },
-      { qty: "1000", price: "30.000" },
-    ],
-    fullList: [
-      "100 • Rp 3.000", "500 • Rp 15.000", "1000 • Rp 30.000"
+    options: [
+      { qty: "100", price: "3.000", value: 3000 },
+      { qty: "200", price: "6.000", value: 6000 },
+      { qty: "300", price: "9.000", value: 9000 },
+      { qty: "400", price: "12.000", value: 12000 },
+      { qty: "500", price: "15.000", value: 15000 },
+      { qty: "600", price: "18.000", value: 18000 },
+      { qty: "700", price: "21.000", value: 21000 },
+      { qty: "800", price: "24.000", value: 24000 },
+      { qty: "900", price: "27.000", value: 27000 },
+      { qty: "1000", price: "30.000", value: 30000 },
     ]
   },
   {
     category: "Followers Instagram",
     icon: InstagramIcon,
-    promo: "Paket Murah: 5.000 Followers • Rp 80.000",
-    prices: [
-      { qty: "100", price: "3.000" },
-      { qty: "500", price: "14.000" },
-      { qty: "1000", price: "27.000" },
-    ],
-    fullList: [
-      "100 • Rp 3.000", "500 • Rp 14.000", "1000 • Rp 27.000"
+    promo: "PAKET MURAH: 5.000 Followers • Rp 80.000",
+    options: [
+      { qty: "100", price: "3.000", value: 3000 },
+      { qty: "200", price: "6.000", value: 6000 },
+      { qty: "300", price: "9.000", value: 9000 },
+      { qty: "400", price: "11.000", value: 11000 },
+      { qty: "500", price: "14.000", value: 14000 },
+      { qty: "600", price: "17.000", value: 17000 },
+      { qty: "700", price: "19.000", value: 19000 },
+      { qty: "800", price: "21.000", value: 21000 },
+      { qty: "900", price: "24.000", value: 24000 },
+      { qty: "1000", price: "27.000", value: 27000 },
+      { qty: "5000 (PROMO)", price: "80.000", value: 80000 },
     ]
   },
   {
     category: "Followers IG (Indonesia)",
     icon: InstagramIcon,
-    promo: "Paket Murah: 5.000 Followers • Rp 180.000",
-    prices: [
-      { qty: "100", price: "11.000" },
-      { qty: "500", price: "34.000" },
-      { qty: "1000", price: "61.000" },
-    ],
-    fullList: [
-      "100 • Rp 11.000", "500 • Rp 34.000", "1000 • Rp 61.000"
+    promo: "PAKET MURAH: 5.000 Followers • Rp 180.000",
+    options: [
+      { qty: "100", price: "11.000", value: 11000 },
+      { qty: "200", price: "17.000", value: 17000 },
+      { qty: "300", price: "23.000", value: 23000 },
+      { qty: "400", price: "28.000", value: 28000 },
+      { qty: "500", price: "34.000", value: 34000 },
+      { qty: "600", price: "39.000", value: 39000 },
+      { qty: "700", price: "44.000", value: 44000 },
+      { qty: "800", price: "50.000", value: 50000 },
+      { qty: "900", price: "56.000", value: 56000 },
+      { qty: "1000", price: "61.000", value: 61000 },
+      { qty: "5000 (PROMO)", price: "180.000", value: 180000 },
     ]
   },
   {
     category: "Like Instagram",
     icon: Heart,
-    prices: [
-      { qty: "100", price: "4.000" },
-      { qty: "500", price: "16.000" },
-      { qty: "1000", price: "28.000" },
-    ],
-    fullList: [
-      "100 • Rp 4.000", "500 • Rp 16.000", "1000 • Rp 28.000"
+    options: [
+      { qty: "100", price: "4.000", value: 4000 },
+      { qty: "200", price: "7.000", value: 7000 },
+      { qty: "300", price: "10.000", value: 10000 },
+      { qty: "400", price: "13.000", value: 13000 },
+      { qty: "500", price: "16.000", value: 16000 },
+      { qty: "600", price: "19.000", value: 19000 },
+      { qty: "1000", price: "28.000", value: 28000 },
     ]
   }
 ];
@@ -204,39 +232,87 @@ const SectionHeader = ({ title, subtitle }: { title: string, subtitle: string })
   </div>
 );
 
-const PricingCard = ({ item }: any) => (
-  <motion.div whileHover={{ y: -5 }} className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden flex flex-col h-full border-b-4 border-b-purple-600">
-    <div className="p-8">
-      <div className="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 mb-6">
-        <item.icon size={28} />
-      </div>
-      <h3 className="text-xl font-bold text-gray-900 mb-4">{item.category}</h3>
-      <div className="space-y-3 mb-6">
-        {item.prices.map((p, idx) => (
-          <div key={idx} className="flex justify-between items-center text-sm">
-            <span className="text-gray-600 font-medium">{p.qty} {item.category.includes('View') ? '' : 'Qty'}</span>
-            <span className="text-purple-700 font-bold">Rp {p.price}</span>
-          </div>
-        ))}
-      </div>
-      {item.promo && (
-        <div className="bg-purple-50 p-3 rounded-xl mb-6 text-xs font-bold text-purple-700 border border-purple-100">
-          🔥 {item.promo}
+const PricingCard = ({ item, onOrder }: any) => {
+  const [selectedOptIdx, setSelectedOptIdx] = useState(0);
+  const [targetLink, setTargetLink] = useState('');
+  const [error, setError] = useState(false);
+
+  const selectedOpt = item.options[selectedOptIdx];
+
+  const handleOrder = () => {
+    if (!targetLink.trim()) {
+      setError(true);
+      return;
+    }
+    setError(false);
+    onOrder({
+      category: item.category,
+      qty: selectedOpt.qty,
+      price: selectedOpt.price,
+      target: targetLink
+    });
+  };
+
+  return (
+    <motion.div whileHover={{ y: -5 }} className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden flex flex-col h-full border-b-4 border-b-purple-600">
+      <div className="p-8 pb-6">
+        <div className="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 mb-6">
+          <item.icon size={28} />
         </div>
-      )}
-    </div>
-    <div className="mt-auto p-6 bg-gray-50 border-t border-gray-100">
-      <a 
-        href={`${WHATSAPP_LINK}?text=Halo JaySosmed, saya mau order ${item.category}...`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="w-full bg-white border-2 border-purple-600 text-purple-600 py-3 rounded-xl font-bold flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all shadow-sm"
-      >
-        Order Sekarang
-      </a>
-    </div>
-  </motion.div>
-);
+        <h3 className="text-xl font-bold text-gray-900 mb-4">{item.category}</h3>
+        
+        {item.promo && (
+          <div className="bg-purple-50 p-3 rounded-xl mb-6 text-xs font-bold text-purple-700 border border-purple-100">
+            🔥 {item.promo}
+          </div>
+        )}
+
+        <div className="space-y-4 mb-2">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Pilih Jumlah</label>
+            <select 
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-purple-500 focus:border-purple-500 block p-3 outline-hidden"
+              value={selectedOptIdx}
+              onChange={(e) => setSelectedOptIdx(Number(e.target.value))}
+            >
+              {item.options.map((opt: any, idx: number) => (
+                <option key={idx} value={idx}>
+                  {opt.qty} - Rp {opt.price}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Username / Link Target</label>
+            <input 
+              type="text" 
+              placeholder="@username atau URL" 
+              value={targetLink}
+              onChange={(e) => {
+                setTargetLink(e.target.value);
+                if (e.target.value) setError(false);
+              }}
+              className={`w-full bg-gray-50 border ${error ? 'border-red-500' : 'border-gray-200'} text-gray-900 text-sm rounded-xl focus:ring-purple-500 focus:border-purple-500 block p-3 outline-hidden`}
+            />
+            {error && <span className="text-xs text-red-500 mt-1 block">Username/Link wajib diisi!</span>}
+          </div>
+        </div>
+      </div>
+      <div className="mt-auto p-6 bg-gray-50 border-t border-gray-100">
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-gray-500 text-sm font-medium">Total Harga:</span>
+          <span className="text-xl font-bold text-purple-700">Rp {selectedOpt.price}</span>
+        </div>
+        <button 
+          onClick={handleOrder}
+          className="w-full bg-white border-2 border-purple-600 text-purple-600 py-3 rounded-xl font-bold flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all shadow-sm cursor-pointer"
+        >
+          Checkout Sekarang
+        </button>
+      </div>
+    </motion.div>
+  );
+};
 
 const FloatingWhatsApp = () => (
   <motion.a 
@@ -253,6 +329,23 @@ const FloatingWhatsApp = () => (
 );
 
 export default function App() {
+  const [orderData, setOrderData] = useState<any>(null);
+
+  const handleOrderConfirm = () => {
+    if (!orderData) return;
+    const text = `Halo JaySosmed, saya mau konfirmasi pembayaran order saya:
+%0A
+%0A*Layanan:* ${orderData.category}
+%0A*Jumlah:* ${orderData.qty}
+%0A*Target:* ${orderData.target}
+%0A*Total Harga:* Rp ${orderData.price}
+%0A
+%0ASaya sudah melakukan transfer melalui QRIS. Mohon segera diproses, terima kasih!`;
+    
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+    setOrderData(null);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -307,11 +400,11 @@ export default function App() {
         <div className="max-w-7xl mx-auto">
           <SectionHeader 
             title="Daftar Harga Layanan" 
-            subtitle="Paling murah dan berkualitas. Proses cepat tanpa perlu password akun Anda."
+            subtitle="Pilih jumlah layanan yang diinginkan. Masukkan username/link, dan lakukan pembayaran instan."
           />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {PRICE_LIST.map((item, idx) => (
-              <PricingCard key={idx} item={item} />
+              <PricingCard key={idx} item={item} onOrder={(data: any) => setOrderData(data)} />
             ))}
           </div>
         </div>
@@ -388,9 +481,9 @@ export default function App() {
           <SectionHeader title="F.A.Q" subtitle="Beberapa hal yang sering ditanyakan pelanggan kami." />
           <div className="space-y-6">
             {[
-              { q: "Bagaimana cara ordernya?", a: "Pilih paket yang Anda mau, lalu klik tombol Order Sekarang. Anda akan diarahkan ke WhatsApp kami untuk proses selanjutnya." },
+              { q: "Bagaimana cara ordernya?", a: "Pilih paket yang Anda mau, lalu klik tombol Checkout. Anda akan diarahkan ke halaman pembayaran QRIS." },
               { q: "Apakah aman bagi akun saya?", a: "100% aman karena kami tidak butuh password. Metode yang kami gunakan aman dan tidak melanggar ketentuan sosmed." },
-              { q: "Kapan followers saya masuk?", a: "Proses biasanya dimulai dalam hitungan menit setelah konfirmasi pembayaran." },
+              { q: "Kapan followers saya masuk?", a: "Proses biasanya dimulai dalam hitungan menit setelah konfirmasi pembayaran via WhatsApp." },
               { q: "Ada paket lainnya?", a: "Tentu! Untuk request jumlah lain atau paket custom, langsung saja chat WhatsApp kami." }
             ].map((faq, i) => (
               <div key={i} className="bg-purple-50/50 p-6 rounded-2xl">
@@ -407,7 +500,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto">
           <span className="text-3xl font-bold font-display text-purple-400 block mb-8">jay<span className="text-white">sosmed</span></span>
           <div className="flex flex-wrap justify-center gap-8 mb-12">
-            <a href={WHATSAPP_LINK} className="flex items-center hover:text-purple-400"><MessageCircle className="mr-2" /> WhatsApp: 085773617352</a>
+            <a href={WHATSAPP_LINK} className="flex items-center hover:text-purple-400"><MessageCircle className="mr-2" /> WhatsApp: {WHATSAPP_NUMBER}</a>
             <a href={INSTAGRAM_LINK} className="flex items-center hover:text-purple-400"><InstagramIcon className="mr-2" /> @jaysosmed</a>
           </div>
           <p className="text-gray-500 text-sm border-t border-white/10 pt-8">
@@ -415,6 +508,70 @@ export default function App() {
           </p>
         </div>
       </footer>
+
+      {/* Payment Modal */}
+      <AnimatePresence>
+        {orderData && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            >
+              <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 sticky top-0">
+                <h3 className="font-bold text-xl text-gray-900">Pembayaran QRIS</h3>
+                <button onClick={() => setOrderData(null)} className="p-2 text-gray-400 hover:text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-full transition-colors cursor-pointer">
+                  <X size={20} />
+                </button>
+              </div>
+              
+              <div className="p-6 overflow-y-auto">
+                <div className="bg-purple-50 rounded-2xl p-4 mb-6 border border-purple-100">
+                  <div className="text-sm text-purple-800 font-medium mb-2">Ringkasan Pesanan:</div>
+                  <div className="flex justify-between items-center mb-1 text-sm">
+                    <span className="text-gray-600">Layanan:</span>
+                    <span className="font-bold text-gray-900">{orderData.category}</span>
+                  </div>
+                  <div className="flex justify-between items-center mb-1 text-sm">
+                    <span className="text-gray-600">Jumlah:</span>
+                    <span className="font-bold text-gray-900">{orderData.qty}</span>
+                  </div>
+                  <div className="flex justify-between items-center mb-3 text-sm">
+                    <span className="text-gray-600">Target:</span>
+                    <span className="font-bold text-gray-900 truncate max-w-[150px]">{orderData.target}</span>
+                  </div>
+                  <div className="flex justify-between items-center pt-3 border-t border-purple-200/50">
+                    <span className="text-purple-900 font-medium">Total Bayar:</span>
+                    <span className="text-xl font-bold text-purple-700">Rp {orderData.price}</span>
+                  </div>
+                </div>
+
+                <div className="text-center mb-4">
+                  <p className="text-sm text-gray-600 mb-4">Scan kode QRIS di bawah ini menggunakan aplikasi m-Banking atau e-Wallet Anda (Gopay, OVO, Dana, dll).</p>
+                  <div className="bg-white p-4 rounded-3xl shadow-inner border-2 border-gray-100 inline-block">
+                    <img src={qrisImage} alt="QRIS Payment" className="w-64 h-auto rounded-xl" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 border-t border-gray-100 bg-gray-50 mt-auto sticky bottom-0">
+                <p className="text-xs text-center text-gray-500 mb-4">
+                  Pastikan nominal transfer sesuai dengan total bayar. Klik tombol di bawah ini <b>setelah</b> Anda berhasil transfer.
+                </p>
+                <button 
+                  onClick={handleOrderConfirm}
+                  className="w-full bg-purple-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-purple-700 transition-all shadow-xl shadow-purple-200 flex items-center justify-center cursor-pointer"
+                >
+                  <CheckCircle2 className="mr-2" size={20} />
+                  Konfirmasi Pembayaran
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }
