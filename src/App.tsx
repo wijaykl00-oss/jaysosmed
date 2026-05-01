@@ -38,115 +38,50 @@ const PRICE_LIST = [
   {
     category: "Followers TikTok",
     icon: Users,
-    options: [
-      { qty: "100", price: "6.000", value: 6000 },
-      { qty: "200", price: "11.000", value: 11000 },
-      { qty: "300", price: "16.000", value: 16000 },
-      { qty: "400", price: "21.000", value: 21000 },
-      { qty: "500", price: "26.000", value: 26000 },
-      { qty: "600", price: "31.000", value: 31000 },
-      { qty: "700", price: "36.000", value: 36000 },
-      { qty: "800", price: "41.000", value: 41000 },
-      { qty: "900", price: "46.000", value: 46000 },
-      { qty: "1000", price: "51.000", value: 51000 },
-    ]
+    ratePerUnit: 50,
+    minQty: 100,
   },
   {
     category: "Like TikTok",
     icon: Heart,
-    options: [
-      { qty: "100", price: "2.000", value: 2000 },
-      { qty: "200", price: "4.000", value: 4000 },
-      { qty: "300", price: "6.000", value: 6000 },
-      { qty: "400", price: "8.000", value: 8000 },
-      { qty: "500", price: "10.000", value: 10000 },
-      { qty: "600", price: "12.000", value: 12000 },
-      { qty: "700", price: "14.000", value: 14000 },
-      { qty: "800", price: "16.000", value: 16000 },
-      { qty: "900", price: "18.000", value: 18000 },
-      { qty: "1000", price: "20.000", value: 20000 },
-    ]
+    ratePerUnit: 20,
+    minQty: 100,
   },
   {
     category: "View TikTok & Instagram",
     icon: Eye,
-    options: [
-      { qty: "2.500", price: "2.500", value: 2500 },
-      { qty: "5.000", price: "4.500", value: 4500 },
-      { qty: "7.500", price: "6.500", value: 6500 },
-      { qty: "10.000", price: "8.500", value: 8500 },
-      { qty: "12.500", price: "10.500", value: 10500 },
-      { qty: "15.000", price: "12.500", value: 12500 },
-      { qty: "17.500", price: "14.500", value: 14500 },
-      { qty: "20.000", price: "16.500", value: 16500 },
-      { qty: "25.000", price: "18.500", value: 18500 },
-      { qty: "30.000", price: "20.500", value: 20500 },
-    ]
+    ratePerUnit: 1,
+    minQty: 2500,
   },
   {
     category: "Share TikTok",
     icon: Share2,
-    options: [
-      { qty: "100", price: "3.000", value: 3000 },
-      { qty: "200", price: "6.000", value: 6000 },
-      { qty: "300", price: "9.000", value: 9000 },
-      { qty: "400", price: "12.000", value: 12000 },
-      { qty: "500", price: "15.000", value: 15000 },
-      { qty: "600", price: "18.000", value: 18000 },
-      { qty: "700", price: "21.000", value: 21000 },
-      { qty: "800", price: "24.000", value: 24000 },
-      { qty: "900", price: "27.000", value: 27000 },
-      { qty: "1000", price: "30.000", value: 30000 },
-    ]
+    ratePerUnit: 30,
+    minQty: 100,
   },
   {
     category: "Followers Instagram",
     icon: InstagramIcon,
     promo: "PAKET MURAH: 5.000 Followers • Rp 80.000",
-    options: [
-      { qty: "100", price: "3.000", value: 3000 },
-      { qty: "200", price: "6.000", value: 6000 },
-      { qty: "300", price: "9.000", value: 9000 },
-      { qty: "400", price: "11.000", value: 11000 },
-      { qty: "500", price: "14.000", value: 14000 },
-      { qty: "600", price: "17.000", value: 17000 },
-      { qty: "700", price: "19.000", value: 19000 },
-      { qty: "800", price: "21.000", value: 21000 },
-      { qty: "900", price: "24.000", value: 24000 },
-      { qty: "1000", price: "27.000", value: 27000 },
-      { qty: "5000 (PROMO)", price: "80.000", value: 80000 },
-    ]
+    ratePerUnit: 27,
+    minQty: 100,
+    promoQty: 5000,
+    promoPrice: 80000
   },
   {
     category: "Followers IG (Indonesia)",
     icon: InstagramIcon,
     promo: "PAKET MURAH: 5.000 Followers • Rp 180.000",
-    options: [
-      { qty: "100", price: "11.000", value: 11000 },
-      { qty: "200", price: "17.000", value: 17000 },
-      { qty: "300", price: "23.000", value: 23000 },
-      { qty: "400", price: "28.000", value: 28000 },
-      { qty: "500", price: "34.000", value: 34000 },
-      { qty: "600", price: "39.000", value: 39000 },
-      { qty: "700", price: "44.000", value: 44000 },
-      { qty: "800", price: "50.000", value: 50000 },
-      { qty: "900", price: "56.000", value: 56000 },
-      { qty: "1000", price: "61.000", value: 61000 },
-      { qty: "5000 (PROMO)", price: "180.000", value: 180000 },
-    ]
+    ratePerUnit: 60,
+    minQty: 100,
+    promoQty: 5000,
+    promoPrice: 180000
   },
   {
     category: "Like Instagram",
     icon: Heart,
-    options: [
-      { qty: "100", price: "4.000", value: 4000 },
-      { qty: "200", price: "7.000", value: 7000 },
-      { qty: "300", price: "10.000", value: 10000 },
-      { qty: "400", price: "13.000", value: 13000 },
-      { qty: "500", price: "16.000", value: 16000 },
-      { qty: "600", price: "19.000", value: 19000 },
-      { qty: "1000", price: "28.000", value: 28000 },
-    ]
+    ratePerUnit: 28,
+    minQty: 100,
   }
 ];
 
@@ -233,22 +168,33 @@ const SectionHeader = ({ title, subtitle }: { title: string, subtitle: string })
 );
 
 const PricingCard = ({ item, onOrder }: any) => {
-  const [selectedOptIdx, setSelectedOptIdx] = useState(0);
+  const [qty, setQty] = useState<number | ''>(item.minQty);
   const [targetLink, setTargetLink] = useState('');
   const [error, setError] = useState(false);
 
-  const selectedOpt = item.options[selectedOptIdx];
+  let currentPrice = 0;
+  if (typeof qty === 'number' && qty >= item.minQty) {
+    if (item.promoQty && qty >= item.promoQty) {
+      if (qty === item.promoQty) {
+        currentPrice = item.promoPrice;
+      } else {
+        currentPrice = qty * item.ratePerUnit;
+      }
+    } else {
+      currentPrice = qty * item.ratePerUnit;
+    }
+  }
 
   const handleOrder = () => {
-    if (!targetLink.trim()) {
+    if (!targetLink.trim() || !qty || qty < item.minQty) {
       setError(true);
       return;
     }
     setError(false);
     onOrder({
       category: item.category,
-      qty: selectedOpt.qty,
-      price: selectedOpt.price,
+      qty: qty,
+      price: currentPrice,
       target: targetLink
     });
   };
@@ -269,18 +215,15 @@ const PricingCard = ({ item, onOrder }: any) => {
 
         <div className="space-y-4 mb-2">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Pilih Jumlah</label>
-            <select 
-              className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-purple-500 focus:border-purple-500 block p-3 outline-hidden"
-              value={selectedOptIdx}
-              onChange={(e) => setSelectedOptIdx(Number(e.target.value))}
-            >
-              {item.options.map((opt: any, idx: number) => (
-                <option key={idx} value={idx}>
-                  {opt.qty} - Rp {opt.price}
-                </option>
-              ))}
-            </select>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Masukkan Jumlah (Min. {item.minQty})</label>
+            <input 
+              type="number"
+              min={item.minQty}
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-purple-500 focus:border-purple-500 block p-3 outline-none"
+              value={qty}
+              onChange={(e) => setQty(e.target.value === '' ? '' : Number(e.target.value))}
+              placeholder={`Minimal ${item.minQty}`}
+            />
           </div>
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Username / Link Target</label>
@@ -292,16 +235,16 @@ const PricingCard = ({ item, onOrder }: any) => {
                 setTargetLink(e.target.value);
                 if (e.target.value) setError(false);
               }}
-              className={`w-full bg-gray-50 border ${error ? 'border-red-500' : 'border-gray-200'} text-gray-900 text-sm rounded-xl focus:ring-purple-500 focus:border-purple-500 block p-3 outline-hidden`}
+              className={`w-full bg-gray-50 border ${error ? 'border-red-500' : 'border-gray-200'} text-gray-900 text-sm rounded-xl focus:ring-purple-500 focus:border-purple-500 block p-3 outline-none`}
             />
-            {error && <span className="text-xs text-red-500 mt-1 block">Username/Link wajib diisi!</span>}
+            {error && <span className="text-xs text-red-500 mt-1 block">Data wajib diisi dengan benar!</span>}
           </div>
         </div>
       </div>
       <div className="mt-auto p-6 bg-gray-50 border-t border-gray-100">
         <div className="flex justify-between items-center mb-4">
           <span className="text-gray-500 text-sm font-medium">Total Harga:</span>
-          <span className="text-xl font-bold text-purple-700">Rp {selectedOpt.price}</span>
+          <span className="text-xl font-bold text-purple-700">Rp {currentPrice.toLocaleString('id-ID')}</span>
         </div>
         <button 
           onClick={handleOrder}
@@ -328,23 +271,182 @@ const FloatingWhatsApp = () => (
   </motion.a>
 );
 
+const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (username === 'jayjay12' && password === 'Zerotoher0') {
+      onLogin();
+    } else {
+      setError('Username atau password salah');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="bg-white p-8 rounded-3xl shadow-xl w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-6">Admin Login</h2>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <label className="block text-sm font-semibold mb-1">Username</label>
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)} className="w-full border rounded-xl p-3 outline-none focus:border-purple-500" />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold mb-1">Password</label>
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full border rounded-xl p-3 outline-none focus:border-purple-500" />
+          </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <button type="submit" className="w-full bg-purple-600 text-white rounded-xl p-3 font-bold hover:bg-purple-700 cursor-pointer">Login</button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
+  const [orders, setOrders] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    const savedOrders = JSON.parse(localStorage.getItem('jaysosmed_orders') || '[]');
+    setOrders(savedOrders.reverse());
+  }, []);
+
+  const updateStatus = (id: string, status: string) => {
+    const updated = orders.map(o => o.id === id ? { ...o, status } : o);
+    setOrders(updated);
+    localStorage.setItem('jaysosmed_orders', JSON.stringify([...updated].reverse()));
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-wrap justify-between items-center mb-8 gap-4">
+          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+          <div className="space-x-4">
+            <button onClick={() => window.location.hash = ''} className="text-purple-600 font-semibold hover:text-purple-700 cursor-pointer">Kembali ke Web</button>
+            <button onClick={onLogout} className="text-red-600 font-semibold hover:text-red-700 cursor-pointer">Logout</button>
+          </div>
+        </div>
+        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[800px]">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  <th className="p-4 font-semibold text-gray-600">ID</th>
+                  <th className="p-4 font-semibold text-gray-600">Tanggal</th>
+                  <th className="p-4 font-semibold text-gray-600">Layanan</th>
+                  <th className="p-4 font-semibold text-gray-600">Target</th>
+                  <th className="p-4 font-semibold text-gray-600">Jumlah</th>
+                  <th className="p-4 font-semibold text-gray-600">Harga</th>
+                  <th className="p-4 font-semibold text-gray-600">Status</th>
+                  <th className="p-4 font-semibold text-gray-600">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((o: any) => (
+                  <tr key={o.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50">
+                    <td className="p-4 text-sm text-gray-500">{o.id.substring(o.id.length - 6)}</td>
+                    <td className="p-4 text-sm">{new Date(o.date).toLocaleDateString('id-ID')}</td>
+                    <td className="p-4 font-medium text-gray-900">{o.category}</td>
+                    <td className="p-4 text-purple-600 font-medium">{o.target}</td>
+                    <td className="p-4 text-gray-900">{o.qty}</td>
+                    <td className="p-4 font-medium text-gray-900">Rp {o.price.toLocaleString('id-ID')}</td>
+                    <td className="p-4">
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                        o.status === 'success' ? 'bg-green-100 text-green-700' :
+                        o.status === 'process' ? 'bg-blue-100 text-blue-700' :
+                        'bg-amber-100 text-amber-700'
+                      }`}>
+                        {o.status.toUpperCase()}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <select 
+                        value={o.status} 
+                        onChange={e => updateStatus(o.id, e.target.value)}
+                        className="text-sm border rounded-lg p-1 outline-none focus:border-purple-500"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="process">Process</option>
+                        <option value="success">Success</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+                {orders.length === 0 && (
+                  <tr><td colSpan={8} className="p-8 text-center text-gray-500">Belum ada pesanan</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   const [orderData, setOrderData] = useState<any>(null);
+  const [currentView, setCurrentView] = useState('home');
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#admin') {
+        setCurrentView('admin');
+      } else {
+        setCurrentView('home');
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange();
+    
+    const adminAuth = localStorage.getItem('jaysosmed_admin');
+    if (adminAuth === 'true') setIsAdminLoggedIn(true);
+    
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const handleOrderConfirm = () => {
     if (!orderData) return;
+    
+    const newOrder = {
+      id: Date.now().toString(),
+      date: new Date().toISOString(),
+      ...orderData,
+      status: 'pending'
+    };
+    const existingOrders = JSON.parse(localStorage.getItem('jaysosmed_orders') || '[]');
+    localStorage.setItem('jaysosmed_orders', JSON.stringify([...existingOrders, newOrder]));
+
     const text = `Halo JaySosmed, saya mau konfirmasi pembayaran order saya:
 %0A
 %0A*Layanan:* ${orderData.category}
 %0A*Jumlah:* ${orderData.qty}
 %0A*Target:* ${orderData.target}
-%0A*Total Harga:* Rp ${orderData.price}
+%0A*Total Harga:* Rp ${orderData.price.toLocaleString('id-ID')}
 %0A
 %0ASaya sudah melakukan transfer melalui QRIS. Mohon segera diproses, terima kasih!`;
     
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
     setOrderData(null);
   };
+
+  if (currentView === 'admin') {
+    if (!isAdminLoggedIn) {
+      return <AdminLogin onLogin={() => {
+        setIsAdminLoggedIn(true);
+        localStorage.setItem('jaysosmed_admin', 'true');
+      }} />;
+    }
+    return <AdminDashboard onLogout={() => {
+      setIsAdminLoggedIn(false);
+      localStorage.removeItem('jaysosmed_admin');
+    }} />;
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -543,7 +645,7 @@ export default function App() {
                   </div>
                   <div className="flex justify-between items-center pt-3 border-t border-purple-200/50">
                     <span className="text-purple-900 font-medium">Total Bayar:</span>
-                    <span className="text-xl font-bold text-purple-700">Rp {orderData.price}</span>
+                    <span className="text-xl font-bold text-purple-700">Rp {orderData.price.toLocaleString('id-ID')}</span>
                   </div>
                 </div>
 
