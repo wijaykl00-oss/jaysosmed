@@ -23,7 +23,9 @@ import {
   Instagram as InstagramIcon,
   Facebook,
   Twitter,
-  Video
+  Video,
+  User,
+  LogOut
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import qrisImage from '../foto/qrisss.png';
@@ -87,7 +89,7 @@ const PRICE_LIST = [
 
 // --- Components ---
 
-const Navbar = () => {
+const Navbar = ({ loggedInUser, onLogout }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -126,9 +128,24 @@ const Navbar = () => {
             >
               Order Sekarang
             </a>
-            <a href="#admin" className="text-gray-700 font-bold hover:text-purple-600 flex items-center">
-              Login
-            </a>
+            {loggedInUser ? (
+              <div className="flex items-center space-x-4 bg-gray-50 px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+                <div className="flex items-center space-x-2 text-gray-700">
+                  <div className="w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center">
+                    <User size={18} />
+                  </div>
+                  <span className="font-bold text-sm">{loggedInUser.username}</span>
+                </div>
+                <div className="w-px h-6 bg-gray-300"></div>
+                <button onClick={onLogout} className="text-gray-500 hover:text-red-500 transition-colors" title="Logout">
+                  <LogOut size={18} />
+                </button>
+              </div>
+            ) : (
+              <a href="#admin" className="text-gray-700 font-bold hover:text-purple-600 flex items-center">
+                Login
+              </a>
+            )}
           </div>
 
           <div className="md:hidden">
@@ -274,27 +291,51 @@ const FloatingWhatsApp = () => (
   </motion.a>
 );
 
-const LoginMenu = ({ onAdminLogin, onUserLogin }: { onAdminLogin: () => void, onUserLogin: () => void }) => {
+const AuthMenu = ({ onAdminLogin, onUserLogin }: { onAdminLogin: (username: string) => void, onUserLogin: (username: string) => void }) => {
+  const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === 'jayjay12' && password === 'Zerotoher0') {
-      onAdminLogin();
-    } else if (username && password) {
-      onUserLogin();
+    if (!username || !password) {
+      setError('Username dan password wajib diisi');
+      return;
+    }
+
+    if (isLogin) {
+      if (username === 'jayjay12' && password === 'Zerotoher0') {
+        onAdminLogin(username);
+      } else {
+        const users = JSON.parse(localStorage.getItem('jaysosmed_users_db') || '{}');
+        if (users[username] && users[username] === password) {
+          onUserLogin(username);
+        } else {
+          setError('Username atau password salah');
+        }
+      }
     } else {
-      setError('Username atau password salah');
+      if (username === 'jayjay12') {
+        setError('Username tidak tersedia');
+        return;
+      }
+      const users = JSON.parse(localStorage.getItem('jaysosmed_users_db') || '{}');
+      if (users[username]) {
+        setError('Username sudah terdaftar');
+      } else {
+        users[username] = password;
+        localStorage.setItem('jaysosmed_users_db', JSON.stringify(users));
+        onUserLogin(username);
+      }
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded-3xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Login Sistem</h2>
-        <form onSubmit={handleLogin} className="space-y-4">
+        <h2 className="text-2xl font-bold text-center mb-6">{isLogin ? 'Login Sistem' : 'Daftar Akun Baru'}</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-semibold mb-1">Username</label>
             <input type="text" value={username} onChange={e => setUsername(e.target.value)} className="w-full border rounded-xl p-3 outline-none focus:border-purple-500" />
@@ -304,7 +345,23 @@ const LoginMenu = ({ onAdminLogin, onUserLogin }: { onAdminLogin: () => void, on
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full border rounded-xl p-3 outline-none focus:border-purple-500" />
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          <button type="submit" className="w-full bg-purple-600 text-white rounded-xl p-3 font-bold hover:bg-purple-700 cursor-pointer">Login</button>
+          <button type="submit" className="w-full bg-purple-600 text-white rounded-xl p-3 font-bold hover:bg-purple-700 cursor-pointer">
+            {isLogin ? 'Login' : 'Daftar Sekarang'}
+          </button>
+          
+          <div className="text-center mt-4">
+            <span className="text-sm text-gray-600">
+              {isLogin ? 'Belum punya akun? ' : 'Sudah punya akun? '}
+            </span>
+            <button 
+              type="button" 
+              onClick={() => { setIsLogin(!isLogin); setError(''); }} 
+              className="text-purple-600 font-bold hover:underline cursor-pointer"
+            >
+              {isLogin ? 'Daftar di sini' : 'Login di sini'}
+            </button>
+          </div>
+          
           <button type="button" onClick={() => window.location.hash = ''} className="w-full bg-gray-100 text-gray-700 rounded-xl p-3 font-bold hover:bg-gray-200 cursor-pointer mt-2">Kembali ke Beranda</button>
         </form>
       </div>
@@ -401,8 +458,7 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
 export default function App() {
   const [orderData, setOrderData] = useState<any>(null);
   const [currentView, setCurrentView] = useState('home');
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState<{username: string, role: 'admin' | 'user'} | null>(null);
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -422,10 +478,10 @@ export default function App() {
     window.addEventListener('hashchange', handleHashChange);
     handleHashChange();
     
-    const adminAuth = localStorage.getItem('jaysosmed_admin');
-    if (adminAuth === 'true') setIsAdminLoggedIn(true);
-    const userAuth = localStorage.getItem('jaysosmed_user');
-    if (userAuth === 'true') setIsUserLoggedIn(true);
+    const savedUser = localStorage.getItem('jaysosmed_active_user');
+    if (savedUser) {
+      setLoggedInUser(JSON.parse(savedUser));
+    }
     
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
@@ -497,30 +553,41 @@ export default function App() {
   };
 
   if (currentView === 'admin') {
-    if (!isAdminLoggedIn && !isUserLoggedIn) {
-      return <LoginMenu 
-        onAdminLogin={() => {
-          setIsAdminLoggedIn(true);
-          localStorage.setItem('jaysosmed_admin', 'true');
+    if (!loggedInUser) {
+      return <AuthMenu 
+        onAdminLogin={(username) => {
+          const user = { username, role: 'admin' as const };
+          setLoggedInUser(user);
+          localStorage.setItem('jaysosmed_active_user', JSON.stringify(user));
         }} 
-        onUserLogin={() => {
-          setIsUserLoggedIn(true);
-          localStorage.setItem('jaysosmed_user', 'true');
+        onUserLogin={(username) => {
+          const user = { username, role: 'user' as const };
+          setLoggedInUser(user);
+          localStorage.setItem('jaysosmed_active_user', JSON.stringify(user));
           window.location.hash = ''; // Redirect back
         }}
       />;
     }
-    if (isAdminLoggedIn) {
+    if (loggedInUser.role === 'admin') {
       return <AdminDashboard onLogout={() => {
-        setIsAdminLoggedIn(false);
-        localStorage.removeItem('jaysosmed_admin');
+        setLoggedInUser(null);
+        localStorage.removeItem('jaysosmed_active_user');
       }} />;
+    } else {
+      window.location.hash = '';
+      return null;
     }
   }
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      <Navbar 
+        loggedInUser={loggedInUser} 
+        onLogout={() => {
+          setLoggedInUser(null);
+          localStorage.removeItem('jaysosmed_active_user');
+        }} 
+      />
       <FloatingWhatsApp />
 
       {/* Hero */}
