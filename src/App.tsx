@@ -126,6 +126,9 @@ const Navbar = () => {
             >
               Order Sekarang
             </a>
+            <a href="#admin" className="text-gray-700 font-bold hover:text-purple-600 flex items-center">
+              Login
+            </a>
           </div>
 
           <div className="md:hidden">
@@ -271,7 +274,7 @@ const FloatingWhatsApp = () => (
   </motion.a>
 );
 
-const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
+const LoginMenu = ({ onAdminLogin, onUserLogin }: { onAdminLogin: () => void, onUserLogin: () => void }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -279,7 +282,9 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (username === 'jayjay12' && password === 'Zerotoher0') {
-      onLogin();
+      onAdminLogin();
+    } else if (username && password) {
+      onUserLogin();
     } else {
       setError('Username atau password salah');
     }
@@ -288,7 +293,7 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded-3xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Admin Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Login Sistem</h2>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className="block text-sm font-semibold mb-1">Username</label>
@@ -300,6 +305,7 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <button type="submit" className="w-full bg-purple-600 text-white rounded-xl p-3 font-bold hover:bg-purple-700 cursor-pointer">Login</button>
+          <button type="button" onClick={() => window.location.hash = ''} className="w-full bg-gray-100 text-gray-700 rounded-xl p-3 font-bold hover:bg-gray-200 cursor-pointer mt-2">Kembali ke Beranda</button>
         </form>
       </div>
     </div>
@@ -341,6 +347,7 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
                   <th className="p-4 font-semibold text-gray-600">Target</th>
                   <th className="p-4 font-semibold text-gray-600">Jumlah</th>
                   <th className="p-4 font-semibold text-gray-600">Harga</th>
+                  <th className="p-4 font-semibold text-gray-600">Bukti</th>
                   <th className="p-4 font-semibold text-gray-600">Status</th>
                   <th className="p-4 font-semibold text-gray-600">Aksi</th>
                 </tr>
@@ -354,6 +361,9 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
                     <td className="p-4 text-purple-600 font-medium">{o.target}</td>
                     <td className="p-4 text-gray-900">{o.qty}</td>
                     <td className="p-4 font-medium text-gray-900">Rp {o.price.toLocaleString('id-ID')}</td>
+                    <td className="p-4">
+                      {o.proofUrl ? <a href={o.proofUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline text-sm font-semibold">Lihat</a> : '-'}
+                    </td>
                     <td className="p-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                         o.status === 'success' ? 'bg-green-100 text-green-700' :
@@ -392,6 +402,14 @@ export default function App() {
   const [orderData, setOrderData] = useState<any>(null);
   const [currentView, setCurrentView] = useState('home');
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [paymentProof, setPaymentProof] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [paymentError, setPaymentError] = useState('');
+
+  // API ImgBB Key (Ganti dengan key asli milik Anda, dapat dari api.imgbb.com)
+  const IMGBB_API_KEY = "67f677fb582e0e5a6d59c6316279fcc2"; // Default testing key
 
   React.useEffect(() => {
     const handleHashChange = () => {
@@ -406,46 +424,98 @@ export default function App() {
     
     const adminAuth = localStorage.getItem('jaysosmed_admin');
     if (adminAuth === 'true') setIsAdminLoggedIn(true);
+    const userAuth = localStorage.getItem('jaysosmed_user');
+    if (userAuth === 'true') setIsUserLoggedIn(true);
     
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const handleOrderConfirm = () => {
+  const handleOrderConfirm = async () => {
     if (!orderData) return;
+    if (!paymentProof) {
+      setPaymentError("Harap upload bukti pembayaran terlebih dahulu!");
+      return;
+    }
+    
+    setPaymentError('');
+    setIsUploading(true);
+    
+    let proofUrl = '';
+    
+    try {
+      const formData = new FormData();
+      formData.append('image', paymentProof);
+      
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (data.success) {
+        proofUrl = data.data.url;
+      } else {
+        throw new Error('Gagal upload gambar');
+      }
+    } catch (err) {
+      console.error(err);
+      proofUrl = "https://placeholder.com/gagal-upload-imgbb";
+    }
+
+    const txCode = "TRX-" + Date.now().toString().substring(5);
     
     const newOrder = {
-      id: Date.now().toString(),
+      id: txCode,
       date: new Date().toISOString(),
       ...orderData,
+      proofUrl: proofUrl,
       status: 'pending'
     };
+    
     const existingOrders = JSON.parse(localStorage.getItem('jaysosmed_orders') || '[]');
     localStorage.setItem('jaysosmed_orders', JSON.stringify([...existingOrders, newOrder]));
 
-    const text = `Halo JaySosmed, saya mau konfirmasi pembayaran order saya:
+    setIsUploading(false);
+    setShowSuccess(true);
+    
+    setTimeout(() => {
+      const text = `Halo JaySosmed, saya mau konfirmasi pembayaran order saya:
 %0A
+%0A*Kode Transaksi:* ${txCode}
 %0A*Layanan:* ${orderData.category}
 %0A*Jumlah:* ${orderData.qty}
 %0A*Target:* ${orderData.target}
 %0A*Total Harga:* Rp ${orderData.price.toLocaleString('id-ID')}
+%0A*Bukti Pembayaran:* ${proofUrl}
 %0A
-%0ASaya sudah melakukan transfer melalui QRIS. Mohon segera diproses, terima kasih!`;
-    
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
-    setOrderData(null);
+%0AMohon segera diproses, terima kasih!`;
+      
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+      setOrderData(null);
+      setShowSuccess(false);
+      setPaymentProof(null);
+    }, 2500);
   };
 
   if (currentView === 'admin') {
-    if (!isAdminLoggedIn) {
-      return <AdminLogin onLogin={() => {
-        setIsAdminLoggedIn(true);
-        localStorage.setItem('jaysosmed_admin', 'true');
+    if (!isAdminLoggedIn && !isUserLoggedIn) {
+      return <LoginMenu 
+        onAdminLogin={() => {
+          setIsAdminLoggedIn(true);
+          localStorage.setItem('jaysosmed_admin', 'true');
+        }} 
+        onUserLogin={() => {
+          setIsUserLoggedIn(true);
+          localStorage.setItem('jaysosmed_user', 'true');
+          window.location.hash = ''; // Redirect back
+        }}
+      />;
+    }
+    if (isAdminLoggedIn) {
+      return <AdminDashboard onLogout={() => {
+        setIsAdminLoggedIn(false);
+        localStorage.removeItem('jaysosmed_admin');
       }} />;
     }
-    return <AdminDashboard onLogout={() => {
-      setIsAdminLoggedIn(false);
-      localStorage.removeItem('jaysosmed_admin');
-    }} />;
   }
 
   return (
@@ -613,7 +683,23 @@ export default function App() {
 
       {/* Payment Modal */}
       <AnimatePresence>
-        {orderData && (
+        {showSuccess ? (
+          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="bg-white rounded-3xl w-full max-w-sm shadow-2xl p-8 flex flex-col items-center text-center"
+            >
+              <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center text-green-500 mb-6">
+                <CheckCircle2 size={48} />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Pemesanan Berhasil!</h3>
+              <p className="text-gray-600 mb-6">Order Anda telah masuk ke sistem. Mohon tunggu sebentar, Anda akan diarahkan ke WhatsApp Admin...</p>
+              <div className="w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin"></div>
+            </motion.div>
+          </div>
+        ) : orderData && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
@@ -621,9 +707,9 @@ export default function App() {
               exit={{ opacity: 0, scale: 0.95 }}
               className="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
-              <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 sticky top-0">
+              <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 sticky top-0 z-10">
                 <h3 className="font-bold text-xl text-gray-900">Pembayaran QRIS</h3>
-                <button onClick={() => setOrderData(null)} className="p-2 text-gray-400 hover:text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-full transition-colors cursor-pointer">
+                <button onClick={() => { setOrderData(null); setPaymentProof(null); setPaymentError(''); }} className="p-2 text-gray-400 hover:text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-full transition-colors cursor-pointer">
                   <X size={20} />
                 </button>
               </div>
@@ -649,24 +735,41 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="text-center mb-4">
+                <div className="text-center mb-6">
                   <p className="text-sm text-gray-600 mb-4">Scan kode QRIS di bawah ini menggunakan aplikasi m-Banking atau e-Wallet Anda (Gopay, OVO, Dana, dll).</p>
                   <div className="bg-white p-4 rounded-3xl shadow-inner border-2 border-gray-100 inline-block">
                     <img src={qrisImage} alt="QRIS Payment" className="w-64 h-auto rounded-xl" />
                   </div>
                 </div>
+                
+                <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4">
+                  <label className="block text-sm font-bold text-gray-900 mb-2">Upload Bukti Pembayaran <span className="text-red-500">*</span></label>
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        setPaymentProof(e.target.files[0]);
+                        setPaymentError('');
+                      }
+                    }}
+                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer"
+                  />
+                  {paymentError && <p className="text-red-500 text-xs mt-2 font-medium">{paymentError}</p>}
+                </div>
               </div>
 
               <div className="p-6 border-t border-gray-100 bg-gray-50 mt-auto sticky bottom-0">
-                <p className="text-xs text-center text-gray-500 mb-4">
-                  Pastikan nominal transfer sesuai dengan total bayar. Klik tombol di bawah ini <b>setelah</b> Anda berhasil transfer.
-                </p>
                 <button 
                   onClick={handleOrderConfirm}
-                  className="w-full bg-purple-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-purple-700 transition-all shadow-xl shadow-purple-200 flex items-center justify-center cursor-pointer"
+                  disabled={isUploading}
+                  className="w-full bg-purple-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-purple-700 transition-all shadow-xl shadow-purple-200 flex items-center justify-center cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <CheckCircle2 className="mr-2" size={20} />
-                  Konfirmasi Pembayaran
+                  {isUploading ? (
+                    <><div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div> Memproses...</>
+                  ) : (
+                    <><CheckCircle2 className="mr-2" size={20} /> Konfirmasi Pembayaran</>
+                  )}
                 </button>
               </div>
             </motion.div>
