@@ -440,7 +440,7 @@ export default function App() {
   const [paymentError, setPaymentError] = useState('');
 
   // API ImgBB Key (Ganti dengan key asli milik Anda, dapat dari api.imgbb.com)
-  const IMGBB_API_KEY = "67f677fb582e0e5a6d59c6316279fcc2"; // Default testing key
+  const IMGBB_API_KEY = "b3c2b96a2e1ce7159dbd93b5c2e0664d"; // Default testing key
 
   React.useEffect(() => {
     const handleHashChange = () => {
@@ -488,8 +488,8 @@ export default function App() {
         throw new Error('Gagal upload gambar');
       }
     } catch (err) {
-      console.error(err);
-      proofUrl = "https://placeholder.com/gagal-upload-imgbb";
+      console.error("Error upload ImgBB:", err);
+      proofUrl = "https://via.placeholder.com/400x600.png?text=Upload+Gagal+Cek+API+Key+ImgBB";
     }
 
     const txCode = "TRX-" + Date.now().toString().substring(5);
