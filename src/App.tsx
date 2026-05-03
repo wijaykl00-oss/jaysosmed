@@ -120,14 +120,6 @@ const Navbar = ({ loggedInUser, onLogout }: any) => {
                 {link.name}
               </a>
             ))}
-            <a 
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-purple-600 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-purple-700 transition-all shadow-lg shadow-purple-200"
-            >
-              Order Sekarang
-            </a>
             {loggedInUser ? (
               <div className="flex items-center space-x-4 bg-gray-50 px-4 py-2 rounded-full border border-gray-200 shadow-sm">
                 <div className="flex items-center space-x-2 text-gray-700">
@@ -165,9 +157,6 @@ const Navbar = ({ loggedInUser, onLogout }: any) => {
                   {link.name}
                 </a>
               ))}
-              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="block w-full mt-4 bg-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-center">
-                Order di WhatsApp
-              </a>
             </div>
           </motion.div>
         )}
@@ -276,20 +265,6 @@ const PricingCard = ({ item, onOrder }: any) => {
     </motion.div>
   );
 };
-
-const FloatingWhatsApp = () => (
-  <motion.a 
-    href={WHATSAPP_LINK}
-    target="_blank"
-    rel="noopener noreferrer"
-    whileHover={{ scale: 1.1 }}
-    whileTap={{ scale: 0.9 }}
-    className="fixed bottom-8 right-8 z-[100] bg-green-500 text-white p-4 rounded-full shadow-2xl shadow-green-200 flex items-center space-x-2"
-  >
-    <MessageCircle size={32} />
-    <span className="hidden sm:inline font-bold pr-2">Chat Kami</span>
-  </motion.a>
-);
 
 const AuthMenu = ({ onAdminLogin, onUserLogin }: { onAdminLogin: (username: string) => void, onUserLogin: (username: string) => void }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -545,7 +520,7 @@ export default function App() {
 %0A
 %0AMohon segera diproses, terima kasih!`;
       
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+      window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
       setOrderData(null);
       setShowSuccess(false);
       setPaymentProof(null);
@@ -588,7 +563,6 @@ export default function App() {
           localStorage.removeItem('jaysosmed_active_user');
         }} 
       />
-      <FloatingWhatsApp />
 
       {/* Hero */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-4 bg-linear-to-b from-purple-50 to-white">
