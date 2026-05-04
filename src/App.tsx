@@ -25,65 +25,44 @@ import {
   Twitter,
   Video,
   User,
-  LogOut
+  LogOut,
+  Monitor,
+  Globe,
+  Briefcase
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import qrisImage from '../foto/qrisss.png';
+import qrisImage from '../foto/jay stores.jpeg';
 
 // --- Data ---
 
-const WHATSAPP_NUMBER = "6285773617352";
-const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
-const INSTAGRAM_LINK = "https://www.instagram.com/jaysosmed";
+const WHATSAPP_NUMBER = "6285124935573";
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Halo saya mau pesan paket website..`;
+const INSTAGRAM_LINK = "https://www.instagram.com/jaywebsberkah";
 
 const PRICE_LIST = [
   {
-    category: "Followers TikTok",
-    icon: Users,
-    ratePerUnit: 50,
-    minQty: 100,
+    category: "WP Hemat",
+    icon: Monitor,
+    priceRange: "Rp 400.000 - Rp 600.000",
+    basePrice: 400000,
+    promo: "Terlaris untuk UMKM",
+    features: ["Landing Page", "Free Domain & Hosting", "Mobile Responsive", "Pengerjaan Cepat"]
   },
   {
-    category: "Like TikTok",
-    icon: Heart,
-    ratePerUnit: 20,
-    minQty: 100,
+    category: "WP Advanced",
+    icon: Globe,
+    priceRange: "Rp 1.000.000 - Rp 2.000.000",
+    basePrice: 1000000,
+    promo: "Cocok untuk Perusahaan",
+    features: ["Company Profile/Toko Online", "Desain Premium", "SEO Basic", "Integrasi Payment Gateway"]
   },
   {
-    category: "View TikTok & Instagram",
-    icon: Eye,
-    ratePerUnit: 1,
-    minQty: 2500,
-  },
-  {
-    category: "Share TikTok",
-    icon: Share2,
-    ratePerUnit: 30,
-    minQty: 100,
-  },
-  {
-    category: "Followers Instagram",
-    icon: InstagramIcon,
-    promo: "PAKET MURAH: 5.000 Followers • Rp 80.000",
-    ratePerUnit: 27,
-    minQty: 100,
-    promoQty: 5000,
-    promoPrice: 80000
-  },
-  {
-    category: "Followers IG (Indonesia)",
-    icon: InstagramIcon,
-    promo: "PAKET MURAH: 5.000 Followers • Rp 180.000",
-    ratePerUnit: 60,
-    minQty: 100,
-    promoQty: 5000,
-    promoPrice: 180000
-  },
-  {
-    category: "Like Instagram",
-    icon: Heart,
-    ratePerUnit: 28,
-    minQty: 100,
+    category: "Custom Business",
+    icon: Briefcase,
+    priceRange: "Rp 2.000.000 - Rp 3.500.000",
+    basePrice: 2000000,
+    promo: "Fitur Tanpa Batas",
+    features: ["Sistem Kustom Lengkap", "Desain UI/UX Khusus", "Keamanan Tingkat Tinggi", "Maintenance Gratis 3 Bulan"]
   }
 ];
 
@@ -111,7 +90,7 @@ const Navbar = ({ loggedInUser, onLogout }: any) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <span className="text-2xl font-bold font-display text-purple-700">jay<span className="text-gray-900">sosmed</span></span>
+            <span className="text-2xl font-bold font-display text-purple-700">jay<span className="text-gray-900">websberkah</span></span>
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
@@ -177,32 +156,20 @@ const SectionHeader = ({ title, subtitle }: { title: string, subtitle: string })
 );
 
 const PricingCard = ({ item, onOrder }: any) => {
-  const [qty, setQty] = useState<number | ''>(item.minQty);
   const [targetLink, setTargetLink] = useState('');
   const [error, setError] = useState(false);
 
-  let currentPrice = 0;
-  if (typeof qty === 'number' && qty >= item.minQty) {
-    if (item.promoQty && qty >= item.promoQty) {
-      if (qty === item.promoQty) {
-        currentPrice = item.promoPrice;
-      } else {
-        currentPrice = qty * item.ratePerUnit;
-      }
-    } else {
-      currentPrice = qty * item.ratePerUnit;
-    }
-  }
+  const currentPrice = item.basePrice;
 
   const handleOrder = () => {
-    if (!targetLink.trim() || !qty || qty < item.minQty) {
+    if (!targetLink.trim()) {
       setError(true);
       return;
     }
     setError(false);
     onOrder({
       category: item.category,
-      qty: qty,
+      qty: 1,
       price: currentPrice,
       target: targetLink
     });
@@ -214,7 +181,8 @@ const PricingCard = ({ item, onOrder }: any) => {
         <div className="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 mb-6">
           <item.icon size={28} />
         </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-4">{item.category}</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">{item.category}</h3>
+        <p className="text-lg font-extrabold text-purple-700 mb-4">{item.priceRange}</p>
         
         {item.promo && (
           <div className="bg-purple-50 p-3 rounded-xl mb-6 text-xs font-bold text-purple-700 border border-purple-100">
@@ -222,23 +190,21 @@ const PricingCard = ({ item, onOrder }: any) => {
           </div>
         )}
 
-        <div className="space-y-4 mb-2">
+        <ul className="space-y-3 mb-6">
+          {item.features.map((feature: string, idx: number) => (
+            <li key={idx} className="flex items-start text-sm text-gray-600 font-medium">
+              <CheckCircle2 className="text-green-500 mr-2 shrink-0" size={18} />
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        <div className="space-y-4 mb-2 mt-auto">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Masukkan Jumlah (Min. {item.minQty})</label>
-            <input 
-              type="number"
-              min={item.minQty}
-              className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-purple-500 focus:border-purple-500 block p-3 outline-none"
-              value={qty}
-              onChange={(e) => setQty(e.target.value === '' ? '' : Number(e.target.value))}
-              placeholder={`Minimal ${item.minQty}`}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Username / Link Target</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Nama Bisnis / Catatan</label>
             <input 
               type="text" 
-              placeholder="@username atau URL" 
+              placeholder="Contoh: Toko Baju, Company Profile..." 
               value={targetLink}
               onChange={(e) => {
                 setTargetLink(e.target.value);
@@ -252,14 +218,14 @@ const PricingCard = ({ item, onOrder }: any) => {
       </div>
       <div className="mt-auto p-6 bg-gray-50 border-t border-gray-100">
         <div className="flex justify-between items-center mb-4">
-          <span className="text-gray-500 text-sm font-medium">Total Harga:</span>
+          <span className="text-gray-500 text-sm font-medium">Harga DP Mulai:</span>
           <span className="text-xl font-bold text-purple-700">Rp {currentPrice.toLocaleString('id-ID')}</span>
         </div>
         <button 
           onClick={handleOrder}
           className="w-full bg-white border-2 border-purple-600 text-purple-600 py-3 rounded-xl font-bold flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all shadow-sm cursor-pointer"
         >
-          Checkout Sekarang
+          Pesan Sekarang
         </button>
       </div>
     </motion.div>
@@ -474,22 +440,35 @@ export default function App() {
     let proofUrl = '';
     
     try {
+      const base64Image = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(paymentProof);
+        reader.onload = () => {
+          const result = reader.result as string;
+          resolve(result.split(',')[1]);
+        };
+        reader.onerror = error => reject(error);
+      });
+
       const formData = new FormData();
-      formData.append('image', paymentProof);
+      formData.append('image', base64Image);
       
       const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
         method: 'POST',
         body: formData
       });
+      
       const data = await res.json();
       if (data.success) {
         proofUrl = data.data.url;
       } else {
-        throw new Error('Gagal upload gambar');
+        throw new Error(data.error?.message || 'Upload ditolak oleh server');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error upload ImgBB:", err);
-      proofUrl = "https://via.placeholder.com/400x600.png?text=Upload+Gagal+Cek+API+Key+ImgBB";
+      setPaymentError(`Gagal upload bukti pembayaran. Silakan coba gambar lain. (${err.message})`);
+      setIsUploading(false);
+      return;
     }
 
     const txCode = "TRX-" + Date.now().toString().substring(5);
@@ -509,13 +488,12 @@ export default function App() {
     setShowSuccess(true);
     
     setTimeout(() => {
-      const text = `Halo JaySosmed, saya mau konfirmasi pembayaran order saya:
+      const text = `Halo JayWebsBerkah, saya mau konsultasi & konfirmasi pembayaran pemesanan website saya:
 %0A
 %0A*Kode Transaksi:* ${txCode}
-%0A*Layanan:* ${orderData.category}
-%0A*Jumlah:* ${orderData.qty}
-%0A*Target:* ${orderData.target}
-%0A*Total Harga:* Rp ${orderData.price.toLocaleString('id-ID')}
+%0A*Paket:* ${orderData.category}
+%0A*Nama Bisnis/Catatan:* ${orderData.target}
+%0A*Total DP/Bayar:* Rp ${orderData.price.toLocaleString('id-ID')}
 %0A*Bukti Pembayaran:* ${proofUrl}
 %0A
 %0AMohon segera diproses, terima kasih!`;
@@ -570,20 +548,20 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} className="lg:w-1/2">
             <div className="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-bold mb-6">
-              🚀 Fast Respon • Aman • Terpercaya
+              🚀 Cepat • Profesional • Terpercaya
             </div>
             <h1 className="text-5xl lg:text-7xl font-extrabold font-display leading-tight text-gray-900 mb-8">
-              Jasa Suntik <br /><span className="text-purple-600">SOSMED Murah</span>
+              Jasa Pembuatan <br /><span className="text-purple-600">Website Profesional</span>
             </h1>
             <p className="text-xl text-gray-600 mb-10 leading-relaxed max-w-lg">
-              Tingkatkan branding dan popularitas sosial media Anda dengan followers, likes, dan views berkualitas tinggi dalam sekejap. Tanpa login & password!
+              Tingkatkan kredibilitas bisnis Anda dengan website modern, responsif, dan SEO friendly. Kami wujudkan website impian Anda dengan harga terjangkau!
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#harga" className="px-8 py-4 bg-purple-600 text-white rounded-2xl font-bold text-lg hover:bg-purple-700 shadow-xl shadow-purple-200 flex items-center">
-                Lihat Harga <ArrowRight className="ml-2" />
+                Lihat Paket <ArrowRight className="ml-2" />
               </a>
               <a href={INSTAGRAM_LINK} target="_blank" className="px-8 py-4 bg-white border border-gray-200 text-gray-900 rounded-2xl font-bold text-lg hover:border-purple-300 flex items-center">
-                <InstagramIcon className="mr-2" /> @jaysosmed
+                <InstagramIcon className="mr-2" /> @jaywebsberkah
               </a>
             </div>
           </motion.div>
@@ -623,17 +601,17 @@ export default function App() {
         </div>
       </section>
 
-      {/* Why Jay Sosmed */}
+      {/* Why Jay Website */}
       <section id="layanan" className="py-24 bg-purple-900 text-white px-4">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="text-4xl font-bold font-display mb-12">Kenapa Memilih Jay Sosmed?</h2>
+            <h2 className="text-4xl font-bold font-display mb-12">Kenapa Memilih Jay Website?</h2>
             <div className="grid gap-8">
               {[
-                { icon: Zap, title: "Proses Instan", desc: "Orderan Anda diproses segera setelah pembayaran dikonfirmasi." },
-                { icon: ShieldCheck, title: "Keamanan Akun", desc: "Cukup Username/Link profil saja. Kami tidak pernah meminta password Anda." },
-                { icon: Clock, title: "Layanan 24 Jam", desc: "Kami melayani kebutuhan suntik sosmed Anda kapan pun diperlukan." },
-                { icon: TrendingUp, title: "Harga Paling Murah", desc: "Bandingkan harga kami dengan yang lain. Kami berikan harga grosir!" },
+                { icon: Zap, title: "Pengerjaan Cepat", desc: "Website Anda siap digunakan dalam waktu singkat tanpa mengorbankan kualitas." },
+                { icon: ShieldCheck, title: "Keamanan Terjamin", desc: "Sistem yang tangguh dengan perlindungan keamanan terbaik untuk data Anda." },
+                { icon: Globe, title: "Desain Responsif", desc: "Tampil sempurna di semua perangkat, dari smartphone hingga desktop." },
+                { icon: TrendingUp, title: "SEO Friendly", desc: "Struktur website yang dioptimalkan agar mudah ditemukan di Google." },
               ].map((f, i) => (
                 <div key={i} className="flex space-x-6">
                   <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
@@ -649,9 +627,9 @@ export default function App() {
           </div>
           <div className="relative">
             <img 
-              src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=800" 
+              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" 
               className="rounded-[48px] shadow-3xl"
-              alt="Social Media Expert"
+              alt="Website Development"
             />
           </div>
         </div>
@@ -661,14 +639,14 @@ export default function App() {
       <section className="py-24 bg-purple-50/50 px-4">
         <div className="max-w-7xl mx-auto">
           <SectionHeader 
-            title="Ribuan Selebgram Puas" 
-            subtitle="Bergabunglah dengan content creator lainnya yang sudah menggunakan jasa kami."
+            title="Klien Kami yang Puas" 
+            subtitle="Bergabunglah dengan ratusan pemilik bisnis lainnya yang sudah mempercayakan website mereka kepada kami."
           />
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { name: "Rian Pratama", role: "TikToker", content: "Awalnya iseng nyoba 100 followers, eh ternyata beneran masuk dan cepat. Langsung langganan!" },
-              { name: "Maya Siska", role: "Online Shop Owner", content: "Bikin toko online saya jadi kelihatan jauh lebih terpercaya dengan jumlah like yang banyak." },
-              { name: "Doni Hermawan", role: "Content Creator", content: "Followers IG Indonesia-nya mantap, akun asli semua kelihatannya. Gak nyesel order di sini." },
+              { name: "Rian Pratama", role: "Pemilik Toko Online", content: "Website toko online saya jadi sangat profesional dan penjualannya meningkat drastis. Prosesnya cepat banget!", img: "https://randomuser.me/api/portraits/men/32.jpg" },
+              { name: "Maya Siska", role: "CEO Startup", content: "Layanan jasanya luar biasa! Tim Jay WebsBerkah sangat responsif dan desainnya sesuai dengan ekspektasi kami.", img: "https://randomuser.me/api/portraits/women/44.jpg" },
+              { name: "Doni Hermawan", role: "Konsultan Bisnis", content: "Company profile yang dibuatkan sangat merepresentasikan brand saya. Harga terjangkau dengan hasil premium.", img: "https://randomuser.me/api/portraits/men/46.jpg" },
             ].map((t, i) => (
               <div key={i} className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
                 <div className="flex text-amber-400 mb-4">
@@ -676,7 +654,7 @@ export default function App() {
                 </div>
                 <p className="text-gray-700 italic mb-6 leading-relaxed">"{t.content}"</p>
                 <div className="flex items-center">
-                  <img src={`https://images.unsplash.com/photo-${1500000000000 + i * 1000000}?auto=format&fit=crop&q=80&w=100&h=100`} className="w-12 h-12 rounded-full mr-4 object-cover" alt={t.name} />
+                  <img src={t.img} className="w-12 h-12 rounded-full mr-4 object-cover" alt={t.name} />
                   <div>
                     <h4 className="font-bold text-gray-900">{t.name}</h4>
                     <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">{t.role}</p>
@@ -688,16 +666,49 @@ export default function App() {
         </div>
       </section>
 
+      {/* CTA Section */}
+      <section className="py-12 px-4 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-gradient-to-br from-purple-600 to-indigo-600 rounded-[3rem] p-12 text-center text-white relative overflow-hidden shadow-2xl shadow-purple-200">
+            {/* Decorative shapes */}
+            <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 right-0 w-48 h-48 bg-purple-900/20 rounded-full blur-3xl translate-x-1/4 translate-y-1/4" />
+            
+            <h2 className="text-3xl md:text-4xl font-bold font-display mb-6 relative z-10">
+              Siap Untuk Mendigitalkan Bisnis Anda Sekarang?
+            </h2>
+            <p className="text-base md:text-lg text-purple-50 mb-10 max-w-3xl mx-auto relative z-10 leading-relaxed">
+              Jangan biarkan kompetitor selangkah di depan. Konsultasikan kebutuhan website Anda kepada kami secara GRATIS!
+            </p>
+            
+            <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
+              <a 
+                href={WHATSAPP_LINK}
+                className="bg-white text-purple-700 font-bold py-4 px-8 rounded-2xl flex items-center justify-center hover:bg-purple-50 transition-colors shadow-lg"
+              >
+                <MessageCircle className="mr-2" /> Hubungi WhatsApp
+              </a>
+              <a 
+                href="#layanan"
+                className="bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold py-4 px-8 rounded-2xl flex items-center justify-center hover:bg-white/20 transition-colors"
+              >
+                Pelajari Lebih Lanjut
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section id="faq" className="py-24 px-4 bg-white">
         <div className="max-w-3xl mx-auto">
           <SectionHeader title="F.A.Q" subtitle="Beberapa hal yang sering ditanyakan pelanggan kami." />
           <div className="space-y-6">
             {[
-              { q: "Bagaimana cara ordernya?", a: "Pilih paket yang Anda mau, lalu klik tombol Checkout. Anda akan diarahkan ke halaman pembayaran QRIS." },
-              { q: "Apakah aman bagi akun saya?", a: "100% aman karena kami tidak butuh password. Metode yang kami gunakan aman dan tidak melanggar ketentuan sosmed." },
-              { q: "Kapan followers saya masuk?", a: "Proses biasanya dimulai dalam hitungan menit setelah konfirmasi pembayaran via WhatsApp." },
-              { q: "Ada paket lainnya?", a: "Tentu! Untuk request jumlah lain atau paket custom, langsung saja chat WhatsApp kami." }
+              { q: "Bagaimana proses pembuatannya?", a: "Pilih paket yang Anda mau, lakukan pembayaran DP/penuh, dan tim kami akan segera menghubungi Anda untuk diskusi detail desain." },
+              { q: "Apakah saya perlu beli domain & hosting lagi?", a: "Tidak perlu! Semua paket kami sudah termasuk Free Domain dan Hosting selama 1 tahun pertama." },
+              { q: "Berapa lama proses pengerjaannya?", a: "Tergantung paket yang dipilih. WP Hemat memakan waktu sekitar 3 hari kerja, sedangkan Custom Business bisa 14 hari kerja." },
+              { q: "Apakah bisa request fitur khusus?", a: "Tentu! Untuk request fitur khusus di luar paket, Anda bisa memilih paket Custom Business dan konsultasi langsung dengan kami." }
             ].map((faq, i) => (
               <div key={i} className="bg-purple-50/50 p-6 rounded-2xl">
                 <h4 className="font-bold text-gray-900 mb-2">{faq.q}</h4>
@@ -711,13 +722,13 @@ export default function App() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white pt-24 pb-12 px-4 text-center">
         <div className="max-w-7xl mx-auto">
-          <span className="text-3xl font-bold font-display text-purple-400 block mb-8">jay<span className="text-white">sosmed</span></span>
+          <span className="text-3xl font-bold font-display text-purple-400 block mb-8">jay<span className="text-white">websberkah</span></span>
           <div className="flex flex-wrap justify-center gap-8 mb-12">
             <a href={WHATSAPP_LINK} className="flex items-center hover:text-purple-400"><MessageCircle className="mr-2" /> WhatsApp: {WHATSAPP_NUMBER}</a>
-            <a href={INSTAGRAM_LINK} className="flex items-center hover:text-purple-400"><InstagramIcon className="mr-2" /> @jaysosmed</a>
+            <a href={INSTAGRAM_LINK} className="flex items-center hover:text-purple-400"><InstagramIcon className="mr-2" /> @jaywebsberkah</a>
           </div>
           <p className="text-gray-500 text-sm border-t border-white/10 pt-8">
-            &copy; {new Date().getFullYear()} jaysosmed. Jasa Suntik Sosmed Tercepat & Terpercaya.
+            &copy; {new Date().getFullYear()} jaywebsberkah. Jasa Pembuatan Website Profesional & Terpercaya.
           </p>
         </div>
       </footer>
